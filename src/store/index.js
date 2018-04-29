@@ -22,7 +22,7 @@ export const store = new Vuex.Store({
     async fetchMovies ({
       dispatch
     }, query) {
-      let movies = await axios.get(`http://www.omdbapi.com/?s=${query}&apikey=409a3997`)
+      let movies = await axios.get(`https://www.omdbapi.com/?s=${query}&apikey=409a3997`)
       dispatch('setMovies', movies.data.Search)
     }
   },

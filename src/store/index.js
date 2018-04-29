@@ -6,28 +6,34 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    movies: []
+    movies: [],
+    movieDetail: {}
   },
   mutations: {
-    setMovies (state, movies) {
-      state.movies = movies
-    }
+    setMovies: (state, movies) => { state.movies = movies },
+    setMovieDetail: (state, movie) => { state.movieDetail = movie }
   },
   actions: {
-    setMovies ({
-      commit
-    }, movies) {
-      commit('setMovies', movies)
+    setMovies: (state, movies) => {
+      state.commit('setMovies', movies)
     },
-    async fetchMovies ({
-      dispatch
-    }, query) {
-      let movies = await axios.get(`https://www.omdbapi.com/?s=${query}&apikey=409a3997`)
-      dispatch('setMovies', movies.data.Search)
+    setMovieDetail: (state, movie) => {
+      state.commit('setMovieDetail', movie)
+    },
+    fetchMovies: async (state, query) => {
+      state.dispatch('setMovies', [])
+      let response = await axios.get(`https://www.omdbapi.com/?s=${query}&apikey=409a3997`)
+      state.dispatch('setMovies', response.data.Search)
+    },
+    fetchMovieDetail: async (state, movieId) => {
+      state.dispatch('setMovieDetail', {})
+      let response = await axios.get(`https://www.omdbapi.com/?i=${movieId}&apikey=409a3997`)
+      state.dispatch('setMovieDetail', response.data)
     }
   },
   getters: {
-    movies: (state) => state.movies
+    movies: (state) => state.movies,
+    movieDetail: (state) => state.movieDetail
   }
 })
 

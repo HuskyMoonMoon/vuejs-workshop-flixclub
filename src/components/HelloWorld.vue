@@ -3,9 +3,11 @@
     <input v-model="query" @keyup.Enter="search">
     <button @click="search">Search</button>
     <hr>
-    <h1>Search result for '{{ query}}'</h1>
+    <h1>Search result for '{{ query }}'</h1>
     <div v-if="movie.Poster !== 'N/A'" v-for="movie in movies" :key="movie.imdbID" class="poster">
-      <img :src="movie.Poster" :alt="movie.Title">
+      <router-link :to="{ name: 'MovieDetail', params: { id: movie.imdbID }}">
+        <img :src="movie.Poster" :alt="movie.Title">
+      </router-link>
     </div>
   </div>
 </template>
